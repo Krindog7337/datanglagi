@@ -1,26 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package org.datanglagi.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
+import org.datanglagi.App;
 
-/**
- * FXML Controller class
- *
- * @author Microsoft
- */
-public class HomepageController implements Initializable {
+public class HomepageController {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    @FXML
+    private void keBeranda(MouseEvent event) throws IOException {
+        App.setRoot("homepage");
+    }
+
+    @FXML
+    private void keKalender(MouseEvent event) throws IOException {
+        App.setRoot("calender");
+    }
+
+    @FXML
+    private void kePerawatan(MouseEvent event) throws IOException {
+        App.setRoot("perawatan");
+    }
+
+    @FXML
+    private void keAkun(MouseEvent event) throws IOException {
+        App.setRoot("user");
+    }
 }

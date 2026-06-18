@@ -5,229 +5,86 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="640" prefWidth="360" spacing="10" style="-fx-background-color:#F8F5F2;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="640.0" prefWidth="360.0" style="-fx-background-color:#F8F5F2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.datanglagi.controller.PerawatanController">
 
-    <children>
+    <VBox prefHeight="85.0" prefWidth="360.0" spacing="4" style="-fx-background-color:#6E1418;">
+        <padding><Insets left="20" top="20" /></padding>
+        <children>
+            <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="Perawatan &amp; Insight" />
+            <Label style="-fx-text-fill:#F3D5D5; -fx-font-size:12;" text="Tips kesehatan untukmu" />
+        </children>
+    </VBox>
 
-        <!-- HEADER -->
-        <VBox prefHeight="85" prefWidth="360" spacing="4" style="-fx-background-color:#6E1418;">
+    <VBox VBox.vgrow="ALWAYS" spacing="12">
+        <padding><Insets left="18" right="18" top="10" /></padding>
+        <children>
+            <Label style="-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#6A4040;" text="DARURAT" />
+            <HBox spacing="10">
+                <children>
+                    <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Ambulans" />
+                        <Label style="-fx-text-fill:#777777;" text="119 • Hubungi segera" />
+                        <Button prefHeight="35" maxWidth="Infinity" style="-fx-background-color:#9B1C1C; -fx-text-fill:white; -fx-background-radius:14;" text="Hubungi" />
+                    </VBox>
+                    <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
+                        <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Tanya AI Luna" />
+                        <Label style="-fx-text-fill:#777777;" text="Chat kesehatan 24 jam" />
+                        <Button prefHeight="35" maxWidth="Infinity" style="-fx-background-color:#9B1C1C; -fx-text-fill:white; -fx-background-radius:14;" text="Mulai Chat" />
+                    </VBox>
+                </children>
+            </HBox>
 
-            <padding>
-                <Insets left="20" top="20" />
-            </padding>
+            <Label style="-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#6A4040;" text="TIPS MEREDAKAN NYERI" />
+            <FlowPane hgap="10" vgap="10">
+                <children>
+                    <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
+                        <Label style="-fx-font-size:15; -fx-font-weight:bold;" text="Kompres Hangat" />
+                        <Label style="-fx-text-fill:#777777;" text="Tempelkan 15-20 menit pada perut." wrapText="true" />
+                    </VBox>
+                    <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
+                        <Label style="-fx-font-size:15; -fx-font-weight:bold;" text="Yoga Ringan" />
+                        <Label style="-fx-text-fill:#777777;" text="Lakukan peregangan ringan untuk relaksasi." wrapText="true" />
+                    </VBox>
+                </children>
+            </FlowPane>
 
-            <children>
+            <Label style="-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#6A4040;" text="INSIGHT MENSTRUASIMU" />
+            <VBox spacing="10" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
+                <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Pola Siklus 3 Bulan Terakhir" />
+                <Label style="-fx-text-fill:#666666;" text="Siklusmu cukup teratur dalam 3 bulan terakhir." wrapText="true" />
+                <Label style="-fx-text-fill:#9B1C1C; -fx-font-weight:bold;" text="Rata-rata durasi: 28 hari" />
+            </VBox>
+        </children>
+    </VBox>
 
-                <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="Perawatan &amp; Insight" />
-
-                <Label style="-fx-text-fill:#F3D5D5; -fx-font-size:12;" text="Tips kesehatan untukmu" />
-
-            </children>
-
+    <HBox alignment="CENTER" prefHeight="70.0" 
+          style="-fx-background-color: white; -fx-padding: 5; -fx-border-color: #EEE; -fx-border-width: 1 0 0 0;">
+        
+        <VBox alignment="CENTER" onMouseClicked="#keBeranda" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <ImageView fitHeight="28" fitWidth="28"><image><Image url="@../images/house-solid.png"/></image></ImageView>
+            <Label text="Beranda" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
         </VBox>
-
-        <!-- CONTENT -->
-        <VBox spacing="12">
-
-            <padding>
-                <Insets left="18" right="18" />
-            </padding>
-
-            <children>
-
-                <!-- DARURAT -->
-                <Label style="-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#6A4040;" text="DARURAT" />
-
-                <HBox spacing="10">
-
-                    <children>
-
-                        <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                            <children>
-
-                                <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Ambulans" />
-
-                                <Label style="-fx-text-fill:#777777;" text="119 • Hubungi segera" />
-
-                                <Button prefHeight="35" style="-fx-background-color:#9B1C1C; -fx-text-fill:white; -fx-background-radius:14;" text="Hubungi" />
-
-                            </children>
-
-                        </VBox>
-
-                        <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                            <children>
-
-                                <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Tanya AI Luna" />
-
-                                <Label style="-fx-text-fill:#777777;" text="Chat kesehatan 24 jam" />
-
-                                <Button prefHeight="35" style="-fx-background-color:#9B1C1C; -fx-text-fill:white; -fx-background-radius:14;" text="Mulai Chat" />
-
-                            </children>
-
-                        </VBox>
-
-                    </children>
-
-                </HBox>
-
-                <!-- TIPS -->
-                <Label style="-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#6A4040;" text="TIPS MEREDAKAN NYERI" />
-
-                <FlowPane hgap="10" vgap="10">
-
-                    <children>
-
-                        <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                            <children>
-
-                                <Label style="-fx-font-size:15; -fx-font-weight:bold;" text="Kompres Hangat" />
-
-                                <Label style="-fx-text-fill:#777777;" text="Tempelkan 15-20 menit pada perut." wrapText="true" />
-
-                            </children>
-
-                        </VBox>
-
-                        <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                            <children>
-
-                                <Label style="-fx-font-size:15; -fx-font-weight:bold;" text="Yoga Ringan" />
-
-                                <Label style="-fx-text-fill:#777777;" text="Lakukan peregangan ringan untuk relaksasi." wrapText="true" />
-
-                            </children>
-
-                        </VBox>
-
-                        <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                            <children>
-
-                                <Label style="-fx-font-size:15; -fx-font-weight:bold;" text="Minum Air" />
-
-                                <Label style="-fx-text-fill:#777777;" text="Jaga tubuh tetap terhidrasi setiap hari." wrapText="true" />
-
-                            </children>
-
-                        </VBox>
-
-                        <VBox prefWidth="150" spacing="8" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                            <children>
-
-                                <Label style="-fx-font-size:15; -fx-font-weight:bold;" text="Istirahat Cukup" />
-
-                                <Label style="-fx-text-fill:#777777;" text="Tidur cukup membantu mengurangi nyeri." wrapText="true" />
-
-                            </children>
-
-                        </VBox>
-
-                    </children>
-
-                </FlowPane>
-
-                <!-- INSIGHT -->
-                <Label style="-fx-font-size:14; -fx-font-weight:bold; -fx-text-fill:#6A4040;" text="INSIGHT MENSTRUASIMU" />
-
-                <VBox spacing="10" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:15;">
-
-                    <children>
-
-                        <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Pola Siklus 3 Bulan Terakhir" />
-
-                        <Label style="-fx-text-fill:#666666;" text="Siklusmu cukup teratur dalam 3 bulan terakhir." wrapText="true" />
-
-                        <Label style="-fx-text-fill:#9B1C1C; -fx-font-weight:bold;" text="Rata-rata durasi: 28 hari" />
-
-                    </children>
-
-                </VBox>
-
-            </children>
-
+        
+        <VBox alignment="CENTER" onMouseClicked="#keKalender" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <ImageView fitHeight="28" fitWidth="28"><image><Image url="@../images/calendar-days-regular.png"/></image></ImageView>
+            <Label text="Kalender" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
         </VBox>
-      <HBox alignment="BOTTOM_CENTER" spacing="20.0" style="-fx-border-color: rgba(0, 0, 0, 0.1); -fx-border-radius: 10;">
-         <children>
-            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <ImageView fitHeight="55.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/house-solid.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" text="Beranda">
-                     <font>
-                        <Font name="Poppins Medium" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <ImageView fitHeight="55.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                     <image>
-                        <Image url="@../images/calendar-days-regular.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" text="Kalender">
-                     <font>
-                        <Font name="Poppins Medium" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <ImageView fitHeight="55.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/circle-plus-solid.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <ImageView fitHeight="55.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                     <image>
-                        <Image url="@../images/stethoscope-solid%20(1).png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" text="Perawatan" textFill="#942e2e">
-                     <font>
-                        <Font name="Poppins Medium" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" layoutX="111.0" layoutY="10.0">
-               <children>
-                  <ImageView fitHeight="55.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                     <image>
-                        <Image url="@../images/circle-user-regular.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" text="Akun">
-                     <font>
-                        <Font name="Poppins Medium" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-
-    </children>
-
+        
+        <VBox alignment="CENTER" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <ImageView fitHeight="45" fitWidth="45"><image><Image url="@../images/circle-plus-solid.png"/></image></ImageView>
+        </VBox>
+        
+        <VBox alignment="CENTER" onMouseClicked="#kePerawatan" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <ImageView fitHeight="28" fitWidth="28"><image><Image url="@../images/stethoscope-solid.png"/></image></ImageView>
+            <Label text="Perawatan" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #8B0000;"/>
+        </VBox>
+        
+        <VBox alignment="CENTER" onMouseClicked="#keAkun" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+            <ImageView fitHeight="28" fitWidth="28"><image><Image url="@../images/circle-user-solid.png"/></image></ImageView>
+            <Label text="Akun" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
+        </VBox>
+    </HBox>
 </VBox>

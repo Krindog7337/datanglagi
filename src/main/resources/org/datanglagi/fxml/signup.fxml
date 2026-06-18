@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -13,14 +13,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="360.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="org.datanglagi.controller.SignupController" 
+            maxHeight="-Infinity" maxWidth="-Infinity" 
+            minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="640.0" prefWidth="360.0" 
+            style="-fx-background-color: white;" 
+            xmlns="http://javafx.com/javafx/26" 
+            xmlns:fx="http://javafx.com/fxml/1">
+            
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #942E2E;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #942E2E;">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="328.0" prefWidth="360.0" style="-fx-background-color: linear-gradient(to right, #5A0F14, #7A1A1A);">
                <children>
-                  <ImageView fitHeight="121.0" fitWidth="122.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                  <ImageView fitHeight="121.0" fitWidth="122.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/moon.png" />
                      </image>
@@ -39,61 +45,33 @@
                <children>
                   <VBox>
                      <children>
-                        <VBox spacing="5.0" style="-fx-background-radius: 20;">
+                        <VBox spacing="5.0">
                            <children>
-                              <Label alignment="TOP_LEFT" text="Email">
-                                 <padding>
-                                    <Insets top="30.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Poppins Medium" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="textemail" promptText="nama@email" />
+                              <Label text="Email"><font><Font name="Poppins Medium" size="12.0" /></font><padding><Insets top="30.0" /></padding></Label>
+                              <TextField fx:id="txtEmail" promptText="nama@email" />
                            </children>
                         </VBox>
                         <VBox spacing="5.0">
                            <children>
-                              <Label alignment="TOP_LEFT" text="Password">
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Poppins Medium" size="12.0" />
-                                 </font>
-                              </Label>
-                              <PasswordField promptText="mengandung 8 karakter" />
+                              <Label text="Password"><font><Font name="Poppins Medium" size="12.0" /></font><padding><Insets top="10.0" /></padding></Label>
+                              <PasswordField fx:id="txtPassword" promptText="mengandung 8 karakter" />
                            </children>
                         </VBox>
                         <VBox spacing="10.0">
                            <children>
-                              <Label alignment="TOP_LEFT" text="Konfirmasi Password">
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Poppins Medium" size="12.0" />
-                                 </font>
-                              </Label>
-                              <PasswordField promptText="mengandung 8 karakter" />
+                              <Label text="Konfirmasi Password"><font><Font name="Poppins Medium" size="12.0" /></font><padding><Insets top="10.0" /></padding></Label>
+                              <PasswordField fx:id="txtKonfirmasi" promptText="mengandung 8 karakter" />
                            </children>
                         </VBox>
                         <VBox spacing="10.0">
                            <children>
-                              <Label alignment="TOP_LEFT" text="Durasi Haid">
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Poppins Medium" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField prefHeight="20.0" prefWidth="222.0" promptText="3-4 hari" />
+                              <Label text="Durasi Haid"><font><Font name="Poppins Medium" size="12.0" /></font><padding><Insets top="10.0" /></padding></Label>
+                              <TextField fx:id="txtDurasiHaid" prefHeight="20.0" prefWidth="222.0" promptText="3-4 hari" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
-                  <Button alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="222.0" style="-fx-background-color: #942E2E; -fx-background-radius: 10;" text="Daftar Sekarang" textFill="WHITE">
+                  <Button onAction="#handleDaftar" alignment="TOP_CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="222.0" style="-fx-background-color: #942E2E; -fx-background-radius: 10;" text="Daftar Sekarang" textFill="WHITE">
                      <font>
                         <Font name="Poppins SemiBold" size="15.0" />
                      </font>
@@ -105,28 +83,8 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Label alignment="TOP_LEFT" text="Sudah punya akun? ">
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Poppins Medium" size="12.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label alignment="TOP_LEFT" text="Masuk sini" textFill="#942e2e">
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="Poppins Medium" size="12.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </HBox.margin>
-                              </Label>
+                              <Label text="Sudah punya akun? "><font><Font name="Poppins Medium" size="12.0" /></font><padding><Insets bottom="10.0" top="10.0" /></padding></Label>
+                              <Hyperlink onAction="#handleMasuk" text="Masuk sini" textFill="#942e2e"><font><Font name="Poppins Medium" size="12.0" /></font><padding><Insets bottom="10.0" top="10.0" /></padding></Hyperlink>
                            </children>
                         </HBox>
                      </children>
@@ -139,4 +97,4 @@
          </children>
       </VBox>
    </center>
-</View>
+</BorderPane>

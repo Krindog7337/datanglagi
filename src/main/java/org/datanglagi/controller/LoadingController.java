@@ -1,26 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package org.datanglagi.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.animation.PauseTransition;
+import javafx.fxml.FXML;
+import javafx.util.Duration;
+import org.datanglagi.App;
+import java.io.IOException;
 
-/**
- * FXML Controller class
- *
- * @author Microsoft
- */
-public class LoadingController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+public class LoadingController {
+    @FXML
+    public void initialize() {
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(event -> {
+            try {
+                App.setRoot("login");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        delay.play();
+    }
 }

@@ -1,28 +1,14 @@
 package org.datanglagi.controller;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
+import org.datanglagi.App;
 
+public class PerawatanController {
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
-
-/**
- * FXML Controller class
- *
- * @author Microsoft
- */
-public class PerawatanController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    @FXML private void keBeranda(MouseEvent e) throws IOException { App.setRoot("homepage"); }
+    @FXML private void keKalender(MouseEvent e) throws IOException { App.setRoot("calender"); }
+    @FXML private void kePerawatan(MouseEvent e) throws IOException { App.setRoot("perawatan"); }
+    @FXML private void keAkun(MouseEvent e) throws IOException { App.setRoot("user"); }
 }
