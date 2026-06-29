@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleButton?>
@@ -13,13 +14,13 @@
 
     <children>
 
-        <VBox prefHeight="110.0" prefWidth="360" spacing="5" style="-fx-background-color:#6E1418;">
+        <VBox prefHeight="105.0" prefWidth="360" spacing="5" style="-fx-background-color:#6E1418;">
             <padding>
                 <Insets left="20" top="25" />
             </padding>
             <children>
                 <Label style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;" text="Input Data Harian" />
-                <Label style="-fx-text-fill:#F3D5D5; -fx-font-size:14;" text="Senin, 18 Mei 2026" />
+                <Label fx:id="lblHari" style="-fx-text-fill:#F3D5D5; -fx-font-size:14;" text="Hari" />
             </children>
         </VBox>
 
@@ -29,15 +30,15 @@
             </padding>
             <children>
 
-                <VBox spacing="12" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:18;">
+                <VBox prefHeight="88.0" prefWidth="320.0" spacing="12" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:18;">
                     <children>
                         <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="ALIRAN HAID" />
                         <HBox spacing="8">
                             <children>
-                                <Button prefHeight="35" prefWidth="80" style="-fx-background-radius:14; -fx-background-color:#F2EEEE;" text="Tidak Ada" />
-                                <Button prefHeight="35" prefWidth="70" style="-fx-background-radius:14; -fx-background-color:#F2EEEE;" text="Ringan" />
-                                <Button prefHeight="35" prefWidth="70" style="-fx-background-radius:14; -fx-background-color:white; -fx-border-color:#9B1C1C; -fx-border-radius:14; -fx-text-fill:#9B1C1C;" text="Sedang" />
-                                <Button prefHeight="35" prefWidth="70" style="-fx-background-radius:14; -fx-background-color:#F2EEEE;" text="Berat" />
+                                <Button fx:id="btnTidakAda" prefHeight="35" prefWidth="80" style="-fx-background-radius:14; -fx-background-color:#F2EEEE;" text="Tidak Ada" />
+                                <Button fx:id="btnRingan" prefHeight="35" prefWidth="70" style="-fx-background-radius:14; -fx-background-color:#F2EEEE;" text="Ringan" />
+                                <Button fx:id="btnSedang" prefHeight="35" prefWidth="70" style="-fx-background-radius: 14; -fx-background-color: #F2EEEE; -fx-border-color: #F2EEEE; -fx-border-radius: 14;" text="Sedang" />
+                                <Button fx:id="btnBerat" prefHeight="35" prefWidth="70" style="-fx-background-radius:14; -fx-background-color:#F2EEEE;" text="Berat" />
                             </children>
                         </HBox>
                     </children>
@@ -48,13 +49,13 @@
                         <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="GEJALA" />
                         <FlowPane hgap="8" vgap="8">
                             <children>
-                                <Button style="-fx-background-radius:18; -fx-border-radius:18; -fx-border-color:#9B1C1C; -fx-background-color:white; -fx-text-fill:#9B1C1C;" text="Nyeri Perut" />
-                                <Button style="-fx-background-radius:18; -fx-background-color:#F2EEEE;" text="Sakit Kepala" />
-                                <Button style="-fx-background-radius:18; -fx-background-color:#F2EEEE;" text="Kembung" />
-                                <Button style="-fx-background-radius:18; -fx-background-color:#F2EEEE;" text="Mual" />
-                                <Button style="-fx-background-radius:18; -fx-background-color:#F2EEEE;" text="Payudara Nyeri" />
-                                <Button style="-fx-background-radius:18; -fx-background-color:#F2EEEE;" text="Kram" />
-                                <Button style="-fx-background-radius:18; -fx-background-color:#F2EEEE;" text="Lemas" />
+                        <CheckBox fx:id="cbNyeriPerut" mnemonicParsing="false" text="Nyeri Perut" />
+                        <CheckBox fx:id="cbKembung" layoutX="10.0" layoutY="78.0" mnemonicParsing="false" text="Kembung" />
+                        <CheckBox fx:id="cbPayudaraNyeri" layoutX="10.0" layoutY="77.0" mnemonicParsing="false" text="Payudara Nyeri" />
+                        <CheckBox fx:id="cbSakitKepala" layoutX="10.0" layoutY="15.0" mnemonicParsing="false" text="Sakit Kepala" />
+                        <CheckBox fx:id="cbKram" layoutX="105.0" layoutY="44.0" mnemonicParsing="false" text="Kram " />
+                        <CheckBox fx:id="cbMual" layoutX="215.0" layoutY="48.0" mnemonicParsing="false" text="Mual" />
+                        <CheckBox fx:id="cbLemas" layoutX="240.0" layoutY="40.0" mnemonicParsing="false" text="Lemas" />
                             </children>
                         </FlowPane>
                     </children>
@@ -63,7 +64,7 @@
                 <VBox spacing="12" style="-fx-background-color:white; -fx-background-radius:18; -fx-padding:18;">
                     <children>
                         <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="TAMBAH CATATAN" />
-                        <TextArea prefHeight="120" promptText="Tulis catatanmu hari ini..." />
+                        <TextArea fx:id="txtCatatan" prefHeight="120" promptText="Tulis catatanmu hari ini..." />
                     </children>
                 </VBox>
 
@@ -71,11 +72,11 @@
                     <children>
                         <Label style="-fx-font-size:15;" text="Pilih KB Diminum Hari Ini" HBox.hgrow="ALWAYS" />
                         
-                        <ToggleButton fx:id="toggleKb" mnemonicParsing="false" onAction="#handleToggleKb" prefHeight="30.0" prefWidth="65.0" style="-fx-background-radius: 20; -fx-background-color: #D3D3D3; -fx-text-fill: #555; -fx-font-weight: bold; -fx-cursor: hand;" text="OFF" />
+                        <ToggleButton fx:id="btnStatusKB" mnemonicParsing="false" onAction="#handleToggleKb" prefHeight="30.0" prefWidth="65.0" style="-fx-background-radius: 20; -fx-background-color: #D3D3D3; -fx-text-fill: #555; -fx-font-weight: bold; -fx-cursor: hand;" text="OFF" />
                     </children>
                 </HBox>
 
-                <Button prefHeight="50" prefWidth="320" style="-fx-background-color:#9B1C1C; -fx-text-fill:white; -fx-font-size:16; -fx-font-weight:bold; -fx-background-radius:18;" text="Simpan Data Hari Ini" />
+                <Button fx:id="btnSimpan" onMouseClicked="#handleSimpan" prefHeight="50" prefWidth="320" style="-fx-background-color:#9B1C1C; -fx-text-fill:white; -fx-font-size:16; -fx-font-weight:bold; -fx-background-radius:18;" text="Simpan Data Hari Ini" />
 
             </children>
         </VBox>

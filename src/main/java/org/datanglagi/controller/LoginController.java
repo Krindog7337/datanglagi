@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.datanglagi.App;
 import org.datanglagi.UserSession;
-import config.DatabaseHalper;
+import org.datanglagi.DatabaseHalper;
 
 public class LoginController {
 
@@ -23,38 +23,40 @@ public class LoginController {
         String username = txtUsername.getText().trim();
         String password = txtPassword.getText().trim();
 
+        // 1. Validasi Input Kosong
         if (username.isEmpty() || password.isEmpty()) {
             tampilkanPesan("Username dan Password tidak boleh kosong, wak!");
             return;
         }
 
-        String query = "SELECT id_user, username FROM user WHERE username = ?";
+String query = "SELECT username, email, durasi_haid FROM users WHERE username = ? AND password = ?";
 
-        try (Connection conn = DatabaseHalper.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+try (Connection conn = DatabaseHalper.getConnection();
+     PreparedStatement stmt = conn.prepareStatement(query)) {
+    
+    stmt.setString(1, username);
+    stmt.setString(2, password);
+    
+    try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
             
-            stmt.setString(1, username);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int idUserLogin = rs.getInt("id_user");
-                    String usernameLogin = rs.getString("username");
+            String usernameLogin = rs.getString("username");
+            String emailLogin = rs.getString("email");
+            int durasiStr = rs.getInt("durasi_haid"); 
 
-                    // Set Sesi Aktif agar halaman utama bisa tahu siapa yang login
-                    UserSession.setSession(idUserLogin, usernameLogin);
+            UserSession.getInstance().startSession(usernameLogin, emailLogin, durasiStr);
 
-                    // Pindah ke halaman navbar utama
-                    try {
-                        App.setRoot("navbar");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        tampilkanPesan("Gagal memuat halaman aplikasi.");
-                    }
-                } else {
-                    tampilkanPesan("Username tidak ditemukan. Silakan daftar dulu, wak!");
-                }
+            try {
+                App.setRoot("navbar");
+            } catch (IOException e) {
+                e.printStackTrace();
+                tampilkanPesan("Gagal memuat halaman aplikasi.");
             }
-        } catch (SQLException e) {
+        } else {
+            tampilkanPesan("Username atau Password salah, wak! Silakan cek kembali.");
+        }
+    }
+} catch (SQLException e) {
             e.printStackTrace();
             tampilkanPesan("Terjadi kesalahan database: " + e.getMessage());
         }
@@ -66,12 +68,19 @@ public class LoginController {
             App.setRoot("signup");
         } catch (IOException e) {
             e.printStackTrace();
+            tampilkanPesan("Gagal membuka halaman daftar.");
         }
     }
 
     @FXML
     public void handleLupaPassword() {
-        tampilkanPesan("Fitur lupa password sedang dalam pengembangan.");
+        try {
+            // Mengalihkan panggung besar ke file fxml lupa password kamu
+            App.setRoot("password"); 
+        } catch (IOException e) {
+            e.printStackTrace();
+            tampilkanPesan("Gagal membuka halaman lupa password, wak!");
+        }
     }
 
     private void tampilkanPesan(String pesan) {

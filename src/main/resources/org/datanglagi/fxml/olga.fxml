@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="640.0" prefWidth="360.0" style="-fx-background-color: #FFFDFB;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.datanglagi.controller.PerawatanController">
+   <children>
+      <Pane prefHeight="75.0" prefWidth="360.0" style="-fx-background-color: #6E1418;">
+         <children>
+            <Label layoutX="78.0" layoutY="14.0" text="Perawatan &amp; Insight " textFill="WHITE">
+               <font>
+                  <Font name="Poppins SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="96.0" layoutY="41.0" text="Tips Kesehatan Badanmu" textFill="WHITE">
+               <font>
+                  <Font name="Poppins Regular" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button fx:id="btndiet" layoutX="133.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#keTipsDiet" prefHeight="17.0" prefWidth="73.0" style="-fx-background-color: #FFFDFB; -fx-border-color: #000000; -fx-border-radius: 8;" text="Tips Diet" />
+      <Button fx:id="btnnyeri" layoutX="38.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#keTipsNyeri" prefHeight="17.0" prefWidth="73.0" style="-fx-background-color: #FFFDFB; -fx-border-radius: 8; -fx-border-color: #000000;" text="Tips Nyeri" />
+      <Button fx:id="btnolga" layoutX="229.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#keTipsOlahraga" prefHeight="26.0" prefWidth="94.0" style="-fx-background-color: #6E1418; -fx-border-color: #000000; -fx-border-radius: 8;" text="Tips Olahraga" textFill="WHITE" />
+      <Pane layoutX="17.0" layoutY="134.0" prefHeight="99.0" prefWidth="330.0" style="-fx-border-color: black; -fx-background-color: white; -fx-background-radius: 16; -fx-border-radius: 16;">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="76.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/woman.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="110.0" layoutY="14.0" text="Fase Menstruasi (20-30 menit)">
+               <font>
+                  <Font name="Poppins SemiBold" size="12.0" />
+               </font>
+            </Label>
+            <CheckBox layoutX="110.0" layoutY="41.0" mnemonicParsing="false" text="Yoga Ringan" />
+            <CheckBox layoutX="110.0" layoutY="69.0" mnemonicParsing="false" text="Jalan Santai" />
+            <CheckBox layoutX="224.0" layoutY="41.0" mnemonicParsing="false" text="Stretching" />
+            <CheckBox layoutX="224.0" layoutY="69.0" mnemonicParsing="false" text="Pilates " />
+         </children>
+      </Pane>
+      <Pane layoutX="15.0" layoutY="245.0" prefHeight="99.0" prefWidth="330.0" style="-fx-border-color: black; -fx-background-color: white; -fx-background-radius: 16; -fx-border-radius: 16;">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="76.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/bicycle.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="110.0" layoutY="14.0" text="Fase Folikular (45-60 menit)">
+               <font>
+                  <Font name="Poppins SemiBold" size="12.0" />
+               </font>
+            </Label>
+            <CheckBox layoutX="110.0" layoutY="41.0" mnemonicParsing="false" text="Jogging" />
+            <CheckBox layoutX="224.0" layoutY="41.0" mnemonicParsing="false" text="Bersepeda" />
+            <CheckBox layoutX="111.0" layoutY="69.0" mnemonicParsing="false" text="Bulu Tangkis" />
+            <CheckBox layoutX="224.0" layoutY="69.0" mnemonicParsing="false" text="Zumba" />
+         </children>
+      </Pane>
+      <Pane layoutX="15.0" layoutY="357.0" prefHeight="99.0" prefWidth="330.0" style="-fx-border-color: black; -fx-background-color: white; -fx-background-radius: 16; -fx-border-radius: 16;">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="76.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/fitness.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="110.0" layoutY="14.0" text="Fase Ovulasi (30-45 menit)">
+               <font>
+                  <Font name="Poppins SemiBold" size="12.0" />
+               </font>
+            </Label>
+            <CheckBox layoutX="110.0" layoutY="41.0" mnemonicParsing="false" text="Weight Lifting" />
+            <CheckBox layoutX="110.0" layoutY="69.0" mnemonicParsing="false" text="HIIT" />
+            <CheckBox layoutX="224.0" layoutY="41.0" mnemonicParsing="false" text="Sprinting" />
+            <CheckBox layoutX="224.0" layoutY="69.0" mnemonicParsing="false" text="Kickboxing" />
+         </children>
+      </Pane>
+      <Pane layoutX="17.0" layoutY="464.0" prefHeight="99.0" prefWidth="330.0" style="-fx-border-color: black; -fx-background-color: white; -fx-background-radius: 16; -fx-border-radius: 16;">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="76.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/swimming.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="110.0" layoutY="14.0" text="Fase Luteal (30-45 menit))">
+               <font>
+                  <Font name="Poppins SemiBold" size="12.0" />
+               </font>
+            </Label>
+            <CheckBox layoutX="110.0" layoutY="41.0" mnemonicParsing="false" text="Berenang" />
+            <CheckBox layoutX="110.0" layoutY="69.0" mnemonicParsing="false" text="Power Walking" />
+            <CheckBox layoutX="224.0" layoutY="41.0" mnemonicParsing="false" text="Hatha Yoga" />
+            <CheckBox layoutX="224.0" layoutY="69.0" mnemonicParsing="false" text="Pilates" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

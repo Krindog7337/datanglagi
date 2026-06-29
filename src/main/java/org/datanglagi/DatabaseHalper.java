@@ -1,4 +1,4 @@
-package config;
+package org.datanglagi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

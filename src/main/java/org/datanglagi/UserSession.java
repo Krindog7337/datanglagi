@@ -1,26 +1,40 @@
 package org.datanglagi;
-
 public class UserSession {
-    private static int idUser;
-    private static String username;
+    private static UserSession instance;
+    private String username;
+    private String email;
+    private int durasiStr; // Diambil saat sign up
 
-    // Fungsi untuk menyimpan sesi setelah berhasil Login/Signup
-    public static void setSession(int id, String name) {
-        idUser = id;
-        username = name;
+    // Private constructor agar tidak bisa di-instantiate langsung
+    private UserSession() {}
+
+    public static UserSession getInstance() {
+        if (instance == null) {
+            instance = new UserSession();
+        }
+        return instance;
     }
 
-    public static int getIdUser() {
-        return idUser;
+    // Mengisi data sesi saat login berhasil
+    public void startSession(String username, String email, int durasiHaid) {
+        this.username = username;
+        this.email = email;
+        this.durasiStr = durasiHaid;
     }
 
-    public static String getUsername() {
-        return username;
+    // Menghapus sesi saat logout
+    public void clearSession() {
+        this.username = null;
+        this.email = null;
+        this.durasiStr = 0;
     }
 
-    // Fungsi jika user menekan tombol Logout
-    public static void clearSession() {
-        idUser = 0;
-        username = null;
+    public boolean isUserLoggedIn() {
+        return this.username != null;
     }
+
+    // Getter dan Setter
+    public String getUsername() { return username; }
+    public String getEmail() { return email; }
+    public int getDurasiStr() { return durasiStr; }
 }

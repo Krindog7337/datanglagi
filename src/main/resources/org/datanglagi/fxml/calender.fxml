@@ -3,38 +3,27 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="640.0"
-      prefWidth="360.0"
-      spacing="15"
-      style="-fx-background-color:#F8F5F2;"
-      xmlns="http://javafx.com/javafx/26"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.datanglagi.controller.CalenderController">
+<VBox prefHeight="640.0" prefWidth="360.0" spacing="15" style="-fx-background-color:#F8F5F2;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.datanglagi.controller.CalenderController">
 
-<VBox prefHeight="90"
-      spacing="2"
-      style="-fx-background-color:#6E1418;">
+<VBox prefHeight="90" spacing="2" style="-fx-background-color:#6E1418;">
 
     <padding>
-        <Insets left="20" top="20"/>
+        <Insets left="20" top="20" />
     </padding>
 
     <children>
 
-        <Label text="Kalender DatangLagi"
-               style="-fx-text-fill:white;
-                      -fx-font-size:24;
-                      -fx-font-weight:bold;"/>
+        <Label style="-fx-text-fill:white;                       -fx-font-size:24;                       -fx-font-weight:bold;" text="Kalender DatangLagi" />
 
-        <Label text="Lacak siklus dan catatan harian"
-               style="-fx-text-fill:#E5CACA;
-                      -fx-font-size:12;"/>
+        <Label style="-fx-text-fill:#E5CACA;                       -fx-font-size:12;" text="Lacak siklus dan catatan harian" />
 
     </children>
 
@@ -45,23 +34,11 @@
 
     <children>
 
-        <Button prefHeight="35"
-                prefWidth="35"
-                text="‹"
-                onAction="#prevMonth"
-                style="-fx-background-radius:20;
-                       -fx-background-color:#F3EEEE;" />
+        <Button onAction="#prevMonth" prefHeight="35" prefWidth="35" style="-fx-background-radius:20;                        -fx-background-color:#F3EEEE;" text="‹" />
 
-        <Label fx:id="monthLabel"
-               style="-fx-font-size:18;
-                      -fx-font-weight:bold;" />
+        <Label fx:id="monthLabel" style="-fx-font-size:18;                       -fx-font-weight:bold;" />
 
-        <Button prefHeight="35"
-                prefWidth="35"
-                text="›"
-                onAction="#nextMonth"
-                style="-fx-background-radius:20;
-                       -fx-background-color:#F3EEEE;" />
+        <Button onAction="#nextMonth" prefHeight="35" prefWidth="35" style="-fx-background-radius:20;                        -fx-background-color:#F3EEEE;" text="›" />
 
     </children>
 
@@ -70,39 +47,36 @@
 <HBox spacing="23">
 
     <padding>
-        <Insets left="20"/>
+        <Insets left="20" />
     </padding>
 
     <children>
-        <Label text="SEN"/>
-        <Label text="SEL"/>
-        <Label text="RAB"/>
-        <Label text="KAM"/>
-        <Label text="JUM"/>
-        <Label text="SAB"/>
-        <Label text="MIN"/>
+        <Label text="SEN" />
+        <Label text="SEL" />
+        <Label text="RAB" />
+        <Label text="KAM" />
+        <Label text="JUM" />
+        <Label text="SAB" />
+        <Label text="MIN" />
     </children>
 
 </HBox>
 
     <!-- HARI -->
-<GridPane fx:id="calendarGrid"
-          hgap="8"
-          vgap="12"
-          prefWidth="320">
+<GridPane fx:id="calendarGrid" hgap="8" prefWidth="320" vgap="12">
 
     <padding>
-        <Insets left="20" right="20"/>
+        <Insets left="20" right="20" />
     </padding>
 
     <columnConstraints>
-        <ColumnConstraints percentWidth="14.28"/>
-        <ColumnConstraints percentWidth="14.28"/>
-        <ColumnConstraints percentWidth="14.28"/>
-        <ColumnConstraints percentWidth="14.28"/>
-        <ColumnConstraints percentWidth="14.28"/>
-        <ColumnConstraints percentWidth="14.28"/>
-        <ColumnConstraints percentWidth="14.28"/>
+        <ColumnConstraints percentWidth="14.28" />
+        <ColumnConstraints percentWidth="14.28" />
+        <ColumnConstraints percentWidth="14.28" />
+        <ColumnConstraints percentWidth="14.28" />
+        <ColumnConstraints percentWidth="14.28" />
+        <ColumnConstraints percentWidth="14.28" />
+        <ColumnConstraints percentWidth="14.28" />
     </columnConstraints>
 
     <rowConstraints>
@@ -117,6 +91,12 @@
 </GridPane>
 
     <!-- SPACE UNTUK NAVBAR -->
-    <VBox prefHeight="70" />
+    <VBox prefHeight="301.0" prefWidth="360.0" />
+   <Pane prefHeight="49.0" prefWidth="318.0">
+      <children>
+         <ToggleButton fx:id="btnmulai" layoutX="65.0" layoutY="12.0" mnemonicParsing="false" text="Mulai Haid" />
+         <ToggleButton fx:id="btnakhir" layoutX="200.0" layoutY="12.0" mnemonicParsing="false" text="Akhir Haid" />
+      </children>
+   </Pane>
 
 </VBox>

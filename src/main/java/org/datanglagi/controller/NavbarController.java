@@ -6,27 +6,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import org.datanglagi.App; // Pastikan class App di-import!
+import org.datanglagi.App; 
 
 public class NavbarController {
+    @FXML private StackPane contentArea; // Area untuk menampilkan halaman
 
-    @FXML
-    private StackPane contentArea;
-
-    @FXML
-    public void initialize() {
-        // Otomatis memuat homepage saat pertama kali login berhasil
-        loadPage("homepage"); 
-    }
-
-    @FXML
+    // Buat metode static agar mudah dipanggil dari mana saja
+    private static StackPane staticContentArea;
+    
+        @FXML
     private void keBeranda(MouseEvent event) {
         loadPage("homepage");
     }
 
     @FXML
     private void keKalender(MouseEvent event) {
-        // Sesuaikan nama file fxml kalender kamu (gunakan huruf kecil/besar yang sama persis dengan nama filenya)
         loadPage("calender"); 
     }
 
@@ -45,26 +39,21 @@ public class NavbarController {
         loadPage("user"); 
     }
 
-    // METHOD FIX: Menyelaraskan load resource dengan sistem class App kamu
-private void loadPage(String fxmlFileName) {
-    try {
-        // MENYESUAIKAN DENGAN STRUKTUR PROJECT KAMU:
-        // Menambahkan "/fxml/" sesuai dengan letak file kamu di screenshot
-        String path = "/org/datanglagi/fxml/" + fxmlFileName + ".fxml";
-        
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
-        Parent node = fxmlLoader.load();
-        
-        // Bersihkan konten center lama, lalu masukkan halaman baru
-        contentArea.getChildren().clear();
-        contentArea.getChildren().add(node);
-        
-    } catch (IOException e) {
-        System.out.println("[ERROR] Gagal memuat file FXML di navbar: " + fxmlFileName);
-        e.printStackTrace();
-    } catch (NullPointerException npe) {
-        System.out.println("[ERROR] Jalur salah! File tidak ditemukan di /org/datanglagi/fxml/" + fxmlFileName + ".fxml");
-        npe.printStackTrace();
+    @FXML
+    public void initialize() {
+        staticContentArea = contentArea;
+        // Load default page (Homepage)
+        loadPage("homepage");
     }
-}
+
+    public static void loadPage(String fxml) {
+        try {
+            Parent root = FXMLLoader.load(NavbarController.class.getResource("/org/datanglagi/view/" + fxml + ".fxml"));
+            staticContentArea.getChildren().clear();
+            staticContentArea.getChildren().add(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Gagal memuat halaman: " + fxml);
+        }
+    }
 }

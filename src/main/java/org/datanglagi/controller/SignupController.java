@@ -7,30 +7,28 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import org.datanglagi.App;
-import config.DatabaseHalper;
+import org.datanglagi.DatabaseHalper;
+import org.datanglagi.UserSession;
 
 public class SignupController {
 
-    // Menambahkan field username sesuai fx:id di FXML baru kamu
-    @FXML private TextField txtusername; 
-    @FXML private TextField txtEmail;
-    @FXML private PasswordField txtPassword;
-    @FXML private PasswordField txtKonfirmasi;
+    @FXML private TextField txtUsernameSignUp; 
+    @FXML private TextField txtEmailSignUp;
+    @FXML private PasswordField txtPasswordSignUp;
+    @FXML private PasswordField txtKonfirmasiSignUp;
     @FXML private TextField txtDurasiHaid;
 
     @FXML
     public void handleDaftar() {
-        String username = txtusername.getText().trim();
-        String email = txtEmail.getText().trim();
-        String pass = txtPassword.getText().trim();
-        String konf = txtKonfirmasi.getText().trim();
+        String username = txtUsernameSignUp.getText().trim();
+        String email = txtEmailSignUp.getText().trim();
+        String pass = txtPasswordSignUp.getText().trim();
+        String konf = txtKonfirmasiSignUp.getText().trim();
         String durasiStr = txtDurasiHaid.getText().trim();
 
-        // 1. Validasi Input Kosong (ditambah cek username)
+        // 1. Validasi Input Kosong
         if (username.isEmpty() || email.isEmpty() || pass.isEmpty() || konf.isEmpty() || durasiStr.isEmpty()) {
             tampilkanPesan("Data tidak lengkap. Mohon lengkapi seluruh kolom, wak!");
             return;
@@ -51,70 +49,59 @@ public class SignupController {
         try {
             durasiHaid = Integer.parseInt(durasiStr);
         } catch (NumberFormatException e) {
-            tampilkanPesan("Durasi haid harus berupa angka saja (contoh: 4).");
+            tampilkanPesan("Durasi haid harus berupa angka saja (contoh: 7).");
             return;
         }
 
-        // 2. Simpan Data ke Database MySQL
-        // Kolom username diisi oleh nilai dari inputan txtusername
-        String queryUser = "INSERT INTO user (username) VALUES (?)";
-String queryHaid = "INSERT INTO riwayat_haid (id_user, tanggal_mulai, durasi_haid) VALUES (?, ?, ?)";
+        // 2. Query SQL Baru yang disesuaikan (Tanpa mencari id_user otomatis)
+        String queryUser = "INSERT INTO user (username, email, password, durasi_haid) VALUES (?, ?, ?, ?)";
+        String queryHaid = "INSERT INTO siklus_haid (username, panjang_siklus) VALUES (?, ?)";
 
-// TRIK JITU: Buat variabel penampung di luar block try agar bisa dibaca sampai bawah
-int idUserBaruTerdaftar = 0; 
+        try (Connection conn = DatabaseHalper.getConnection()) {
+            conn.setAutoCommit(false); // Mulai transaksi database (Atomic)
 
-try (Connection conn = DatabaseHalper.getConnection()) {
-    conn.setAutoCommit(false); // Mulai transaksi database
-
-    try {
-        // A. Masukkan username baru ke tabel user
-        try (PreparedStatement stmtUser = conn.prepareStatement(queryUser, java.sql.Statement.RETURN_GENERATED_KEYS)) {
-            stmtUser.setString(1, username); 
-            stmtUser.executeUpdate();
-
-            // Mengambil id_user auto-increment yang dihasilkan oleh MySQL
-            try (ResultSet generatedKeys = stmtUser.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    // Isi variabel penampung yang kita buat di luar tadi
-                    idUserBaruTerdaftar = generatedKeys.getInt(1);
-
-                    // B. Masukkan data awal durasi haid ke tabel riwayat_haid
-                    try (PreparedStatement stmtHaid = conn.prepareStatement(queryHaid)) {
-                        stmtHaid.setInt(1, idUserBaruTerdaftar);
-                        stmtHaid.setDate(2, java.sql.Date.valueOf(LocalDate.now())); 
-                        stmtHaid.setInt(3, durasiHaid);
-                        stmtHaid.executeUpdate();
-                    }
-                } else {
-                    throw new SQLException("Gagal mendapatkan ID User baru.");
+            try {
+                // A. Masukkan data user lengkap ke tabel user
+                try (PreparedStatement stmtUser = conn.prepareStatement(queryUser)) {
+                    stmtUser.setString(1, username);
+                    stmtUser.setString(2, email);
+                    stmtUser.setString(3, pass);
+                    stmtUser.setInt(4, durasiHaid);
+                    stmtUser.executeUpdate();
                 }
+
+                // B. Masukkan inisialisasi siklus awal menggunakan username sebagai Foreign Key
+                try (PreparedStatement stmtHaid = conn.prepareStatement(queryHaid)) {
+                    stmtHaid.setString(1, username);
+                    stmtHaid.setInt(2, durasiHaid); // default panjang siklus awal disamakan durasi haid atau diisi 28
+                    stmtHaid.executeUpdate();
+                }
+
+                conn.commit(); // Eksekusi sukses semua, kunci perubahan ke MySQL!
+                
+                tampilkanPesan("Pendaftaran berhasil, wak! Selamat datang di DatangLagi.");
+                
+                // 3. Masukkan data ke dalam UserSession murni milikmu
+                UserSession.getInstance().startSession(username, email, durasiHaid);
+
+                // 4. Pindah langsung ke halaman utama aplikasi
+                try {
+                    App.setRoot("navbar"); 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    tampilkanPesan("Terjadi kesalahan saat memuat halaman aplikasi.");
+                }
+
+            } catch (SQLException e) {
+                conn.rollback(); // Batalkan semua aksi jika salah satu tabel gagal input
+                throw e; 
             }
-        }
-
-        // Komit semua query jika tidak ada kendala
-        conn.commit();
-        
-        // SEKARANG AMAN DI SINI, WAK! Panggil session-nya tepat setelah commit
-        org.datanglagi.UserSession.setSession(idUserBaruTerdaftar, username);
-
-    } catch (SQLException e) {
-        conn.rollback(); // Batalkan jika ada yang gagal
-        throw e; 
-    }
-
-    // 3. Jika berhasil, langsung lempar ke halaman utama (navbar)
-    try {
-        App.setRoot("navbar"); 
-    } catch (IOException e) {
-        e.printStackTrace();
-        tampilkanPesan("Terjadi kesalahan saat memuat halaman aplikasi.");
-    }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Menangkap jika username yang dimasukkan ternyata sudah ada di MySQL
+            // Menangkap jika username atau email ternyata kembar di database
             if (e.getMessage().contains("Duplicate entry")) {
-                tampilkanPesan("Username '" + username + "' sudah terdaftar. Silakan cari username unik yang lain ya!");
+                tampilkanPesan("Username atau Email sudah terdaftar. Silakan cari yang lain ya!");
             } else {
                 tampilkanPesan("Gagal menyimpan data ke database: " + e.getMessage());
             }

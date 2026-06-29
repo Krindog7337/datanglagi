@@ -3,111 +3,76 @@ package org.datanglagi.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import org.datanglagi.App;
-import org.datanglagi.UserSession;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
-import java.util.Map;
+import org.datanglagi.DatabaseHalper;
+import org.datanglagi.UserSession;
 
 public class HomepageController {
-    
-    @FXML private Label labelHaloUser;       
-    @FXML private Label labelTanggalHariIni;  
-    @FXML private Label labelHariLagi;        
-    @FXML private Label labelTanggalPrediksi; 
-    @FXML private Label labelPanjangSiklus;   
-    @FXML private Label labelDurasiHaid;      
-    @FXML private Label labelHariOvulasi;     
-    @FXML private Label labelSiklusDicatat;   
 
-    // Membuat objek mesin kalkulasi dari package DAO yang benar secara mutlak
-    private final dao.SiklusDAO siklusDAO = new dao.SiklusDAO();
+    @FXML private Label labelUsername, lblHari, lblHariKe, lblTanggalHaidNext;
+    @FXML private Label lblMarah, lblSedih, lblBiasa, lblSenang;
+    @FXML private Label lblPanjangSiklusVal, lblDurasiHaidVal, lblOvulasiVal, lblSiklusDicatatVal;
 
     @FXML
     public void initialize() {
-        // 1. Set nama user aktif & tanggal hari ini
-        String namaAktif = UserSession.getUsername();
-        labelHaloUser.setText(namaAktif != null && !namaAktif.isEmpty() ? "Halo " + namaAktif : "Halo User");
+        // 1. Username & Hari (Sesuai Data User & Input Data)
+        String user = UserSession.getInstance().getUsername();
+        labelUsername.setText(user);
+        lblHari.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy", new Locale("id", "ID"))));
+        
+        muatDataRingkasan(user);
+    }
 
-        LocalDate hariIni = LocalDate.now();
-        DateTimeFormatter formatHariIni = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", new Locale("id", "ID"));
-        labelTanggalHariIni.setText(hariIni.format(formatHariIni));
+    private void muatDataRingkasan(String username) {
+        String queryData = "SELECT tanggal_mulai, tanggal_akhir, panjang_siklus FROM siklus_haid WHERE username = ? ORDER BY id_siklus DESC LIMIT 1";
+        
+        try (Connection conn = DatabaseHalper.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(queryData)) {
+            
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
 
-        // 2. Kalkulasi Data Siklus menggunakan objek siklusDAO yang aman
-        int idUserLogin = UserSession.getIdUser();
-        Map<String, Object> dataSiklus = siklusDAO.hitungLogikaSiklus(idUserLogin);
+            if (rs.next()) {
+                LocalDate mulai = rs.getDate("tanggal_mulai").toLocalDate();
+                LocalDate akhir = rs.getDate("tanggal_akhir").toLocalDate();
+                int panjang = rs.getInt("panjang_siklus");
 
-        String fase = (String) dataSiklus.get("fase");
-        LocalDate tglPrediksi = (LocalDate) dataSiklus.get("prediksiDatangLagi");
-
-        // 3. Tampilkan Sisa Hari ke Card Utama
-        DateTimeFormatter formatPrediksi = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
-        labelTanggalPrediksi.setText(tglPrediksi.format(formatPrediksi));
-
-        if ("Menstruasi".equals(fase)) {
-            labelHariLagi.setText("Sedang Haid");
-        } else {
-            long sisaHari = java.time.temporal.ChronoUnit.DAYS.between(hariIni, tglPrediksi);
-            if (sisaHari < 0) {
-                labelHariLagi.setText("Terlambat " + Math.abs(sisaHari) + " hari");
-            } else if (sisaHari == 0) {
-                labelHariLagi.setText("Hari ini!");
-            } else {
-                labelHariLagi.setText(sisaHari + " hari lagi");
+                // 2. Panjang Siklus (Database) & Durasi Haid (Mulai - Akhir)
+                lblPanjangSiklusVal.setText(panjang + " Hari");
+                lblDurasiHaidVal.setText((ChronoUnit.DAYS.between(mulai, akhir) + 1) + " Hari");
+                
+                // 3. Tanggal Haid Selanjutnya & Hari Ke (Countdown menuju Menstruasi)
+                LocalDate nextHaid = mulai.plusDays(panjang);
+                lblTanggalHaidNext.setText(nextHaid.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+                long sisaHari = ChronoUnit.DAYS.between(LocalDate.now(), nextHaid);
+                lblHariKe.setText(sisaHari >= 0 ? sisaHari + " Hari Lagi" : "Haid Telah Tiba");
+                
+                // 4. Ovulasi (Statis 5 Hari sesuai standar umum)
+                lblOvulasiVal.setText("5 Hari");
             }
+        } catch (SQLException e) { e.printStackTrace(); }
+        
+        // 5. Siklus Dicatat (Agregasi database)
+        try (Connection conn = DatabaseHalper.getConnection();
+             PreparedStatement stmtCount = conn.prepareStatement("SELECT COUNT(*) FROM siklus_haid WHERE username = ?")) {
+            stmtCount.setString(1, username);
+            ResultSet rs = stmtCount.executeQuery();
+            if (rs.next()) lblSiklusDicatatVal.setText(rs.getInt(1) + " Kali");
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    // 6. Perubahan Mood (Single Select Merah)
+    @FXML
+    private void klikMood(MouseEvent e) {
+        Label klik = (Label) e.getSource();
+        Label[] moods = {lblMarah, lblSedih, lblBiasa, lblSenang};
+        for (Label l : moods) {
+            // Jika label yang diklik sama dengan label dalam array, warnai merah, jika tidak kembalikan ke hitam
+            l.setStyle(l == klik ? "-fx-text-fill: #6E1418; -fx-font-weight: bold;" : "-fx-text-fill: black; -fx-font-weight: normal;");
         }
-
-        // 4. Ambil Durasi Haid untuk Ringkasan Siklus di Bawah
-        int durasiHaidUser = 5; 
-        try (Connection conn = config.DatabaseHalper.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT durasi_haid FROM riwayat_haid WHERE id_user = ? ORDER BY tanggal_mulai DESC LIMIT 1")) {
-            stmt.setInt(1, idUserLogin);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    durasiHaidUser = rs.getInt("durasi_haid");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        labelPanjangSiklus.setText("28 Hari");
-        labelDurasiHaid.setText(durasiHaidUser + " Hari");
-        labelHariOvulasi.setText("14");
-        labelSiklusDicatat.setText("1 Kali");
-    }
-
-    // ====================================================
-    // FXML METHOD (LOGIKA NAVIGASI MENU KLIK)
-    // ====================================================
-    @FXML
-    private void keBeranda(MouseEvent event) throws IOException {
-        App.setRoot("homepage");
-    }
-
-    @FXML
-    private void keKalender(MouseEvent event) throws IOException {
-        App.setRoot("calender");
-    }
-
-    @FXML
-    private void kePerawatan(MouseEvent event) throws IOException {
-        App.setRoot("perawatan");
-    }
-
-    @FXML
-    private void keAkun(MouseEvent event) throws IOException {
-        App.setRoot("user");
-    }
-
-    @FXML
-    public void handleTambahHubungan() {
-        System.out.println("Tombol hubungan pasangan diklik!");
     }
 }
